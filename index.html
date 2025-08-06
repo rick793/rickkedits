@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<!-- saved from url=(0056)file:///Users/mrigankopramanick/Documents/demo/demo.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>rick's portfolio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background: #0a0a0a;
+        font-family: 'Segoe UI', Arial, sans-serif;
+      }
+      .hero {
+        min-height: 100vh;
+        width: 100vw;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: url('./image.png') center center / cover no-repeat;
+        overflow: hidden;
+      }
+      .overlay {
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(10,10,10,0.7);
+        box-shadow: 0 0 30px #00ffe7aa;
+        z-index: 1;
+      }
+      .hero-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        color: #fff;
+      }
+      .hero-title {
+        color: #00ffe7;
+        font-size: 7vw;
+        text-transform: uppercase;
+        font-weight: bold;
+        letter-spacing: 0.1em;
+        text-shadow: 0 0 15px #00ffe7aa, 0 0 30px #009dffaa;
+        margin: 0 0 1vw 0;
+      }
+      .hero-subtitle {
+        color: #fff;
+        font-size: 2.5vw;
+        margin: 0 0 2vw 0;
+        text-shadow: 0 0 5px #00ffe7aa;
+      }
+      .hero-btn {
+        background: #00ffe7;
+        color: #0a0a0a;
+        border: none;
+        border-radius: 30px;
+        padding: 1vw 3vw;
+        font-size: 1.5vw;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0 0 8px #00ffe7aa, 0 0 16px #009dffaa;
+        transition: background 0.2s, color 0.2s;
+      }
+      .hero-btn:hover {
+        background: #009dff;
+        color: #fff;
+      }
+      @media (max-width: 600px) {
+        .hero-title { font-size: 12vw; }
+        .hero-subtitle { font-size: 5vw; }
+        .hero-btn { font-size: 4vw; padding: 3vw 8vw; }
+      }
+      .packages {
+        width: 100vw;
+        background: #111;
+        padding: 4vw 0 6vw 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .packages-title {
+        color: #00ffe7;
+        font-size: 3vw;
+        margin-bottom: 2vw;
+        text-shadow: 0 0 8px #00ffe7aa;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .packages-list {
+        display: flex;
+        gap: 2vw;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .package-card {
+        background: #181818;
+        border-radius: 20px;
+        box-shadow: 0 0 8px #00ffe744, 0 0 16px #009dff22;
+        padding: 2vw 3vw;
+        min-width: 220px;
+        max-width: 300px;
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 2vw;
+      }
+      .package-name {
+        color: #00ffe7;
+        font-size: 2vw;
+        margin-bottom: 1vw;
+        text-shadow: 0 0 4px #00ffe7aa;
+      }
+      .package-features {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 1vw 0;
+        font-size: 1.1vw;
+      }
+      .package-features li {
+        margin-bottom: 0.5vw;
+      }
+      .package-runtime {
+        font-size: 1vw;
+        color: #00ffe7;
+        margin-bottom: 0.5vw;
+      }
+      .package-price {
+        font-size: 1.5vw;
+        font-weight: bold;
+        color: #000000;
+        background: #00ffe7;
+        border-radius: 10px;
+        padding: 0.5vw 1vw;
+        margin-bottom: 0.5vw;
+        box-shadow: 0 0 4px #00ffe7aa;
+        border: none;
+        cursor: pointer;
+        transition: background 0.2s, color 0.2s;
+      }
+      .package-price:hover {
+        background: #009dff;
+        color: #fff;
+      }
+      @media (max-width: 600px) {
+        .packages-title { font-size: 7vw; }
+        .packages-list { flex-direction: column; gap: 4vw; }
+        .package-card { font-size: 4vw; padding: 5vw 6vw; min-width: unset; max-width: unset; }
+        .package-name { font-size: 5vw; }
+        .package-features { font-size: 4vw; }
+        .package-runtime { font-size: 3vw; }
+        .package-price { font-size: 4vw; padding: 2vw 4vw; }
+      }
+    </style>
+  </head>
+  <body>
+    <section class="hero">
+      <div class="overlay"></div>
+      <div class="hero-content">
+        <h1 class="hero-title">rickkeditz</h1>
+        <div class="hero-subtitle">video editing service</div>
+        <button class="hero-btn">Get Started</button>
+      </div>
+    </section>
+    </section>
+    <section class="packages" id="packages">
+      <h2 class="packages-title">Service Packages</h2>
+      <div class="packages-list">
+        <div class="package-card">
+          <h3 class="package-name">Basic Plan</h3>
+          <ul class="package-features">
+            <li>Raw Cut</li>
+            <li>Icon Animations</li>
+            <li>B-Roll</li>
+            <li>BGM</li>
+            <li>SFX</li>
+          </ul>
+          <div class="package-runtime">Run time: 2 min</div>
+          <button class="package-price" data-package="Basic Plan">&#8377;900</button>
+        </div>
+        <div class="package-card">
+          <h3 class="package-name">Advance Plan (Reels)</h3>
+          <ul class="package-features">
+            <li>Motion Graphics</li>
+            <li>All features to make your video stand out</li>
+          </ul>
+          <div class="package-runtime">Run time: 2 min</div>
+          <button class="package-price" data-package="Advance Plan (Reels)">&#8377;1500</button>
+        </div>
+        <div class="package-card">
+          <h3 class="package-name">Advance Plan (Long)</h3>
+          <ul class="package-features">
+            <li>Motion Graphics</li>
+            <li>All features to make your video stand out</li>
+          </ul>
+          <div class="package-runtime">Run time: Long format</div>
+          <button class="package-price" data-package="Advance Plan (Long)">&#8377;800/min</button>
+        </div>
+      </div>
+    </section>
+    <script>
+      document.querySelector('.hero-btn').onclick = function() {
+        document.getElementById('packages').scrollIntoView({ behavior: 'smooth' });
+      };
+
+      // WhatsApp redirect for package buttons
+      document.querySelectorAll('.package-price').forEach(function(btn) {
+        btn.onclick = function() {
+          var price = btn.innerText.trim();
+          var message = encodeURIComponent('Hi, I’m interested in learning more about your [' + price + '] plan.');
+          var whatsappNumber = '916289603700';
+          var url = 'https://wa.me/' + whatsappNumber + '?text=' + message;
+          window.open(url, '_blank');
+        };
+      });
+    </script>
+</body></html>
