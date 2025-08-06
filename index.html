@@ -135,10 +135,22 @@
         margin-bottom: 0.5vw;
         box-shadow: 0 0 4px #00ffe7aa;
         border: none;
+        transition: background 0.2s, color 0.2s;
+      }
+      .package-knowmore {
+        font-size: 1.5vw;
+        font-weight: bold;
+        color: #000000;
+        background: #00ffe7;
+        border-radius: 10px;
+        padding: 0.5vw 1vw;
+        margin-bottom: 0.5vw;
+        box-shadow: 0 0 4px #00ffe7aa;
+        border: none;
         cursor: pointer;
         transition: background 0.2s, color 0.2s;
       }
-      .package-price:hover {
+      .package-knowmore:hover {
         background: #009dff;
         color: #fff;
       }
@@ -150,6 +162,7 @@
         .package-features { font-size: 4vw; }
         .package-runtime { font-size: 3vw; }
         .package-price { font-size: 4vw; padding: 2vw 4vw; }
+        .package-knowmore { font-size: 4vw; padding: 2vw 4vw; }
       }
     </style>
   </head>
@@ -176,7 +189,8 @@
             <li>SFX</li>
           </ul>
           <div class="package-runtime">Run time: 2 min</div>
-          <button class="package-price" data-package="Basic Plan">&#8377;900</button>
+          <div class="package-price">&#8377;900</div>
+          <button class="package-knowmore" data-package="Basic Plan" data-price="900">Know More</button>
         </div>
         <div class="package-card">
           <h3 class="package-name">Advance Plan (Reels)</h3>
@@ -185,7 +199,8 @@
             <li>All features to make your video stand out</li>
           </ul>
           <div class="package-runtime">Run time: 2 min</div>
-          <button class="package-price" data-package="Advance Plan (Reels)">&#8377;1500</button>
+          <div class="package-price">&#8377;1500</div>
+          <button class="package-knowmore" data-package="Advance Plan (Reels)" data-price="1500">Know More</button>
         </div>
         <div class="package-card">
           <h3 class="package-name">Advance Plan (Long)</h3>
@@ -194,7 +209,8 @@
             <li>All features to make your video stand out</li>
           </ul>
           <div class="package-runtime">Run time: Long format</div>
-          <button class="package-price" data-package="Advance Plan (Long)">&#8377;800/min</button>
+          <div class="package-price">&#8377;800/min</div>
+          <button class="package-knowmore" data-package="Advance Plan (Long)" data-price="800/min">Know More</button>
         </div>
       </div>
     </section>
@@ -203,11 +219,12 @@
         document.getElementById('packages').scrollIntoView({ behavior: 'smooth' });
       };
 
-      // WhatsApp redirect for package buttons
-      document.querySelectorAll('.package-price').forEach(function(btn) {
+      // WhatsApp redirect for know more buttons
+      document.querySelectorAll('.package-knowmore').forEach(function(btn) {
         btn.onclick = function() {
-          var price = btn.innerText.trim();
-          var message = encodeURIComponent('Hi, I’m interested in learning more about your [' + price + '] plan.');
+          var packageName = btn.getAttribute('data-package');
+          var price = btn.getAttribute('data-price');
+          var message = encodeURIComponent('Hi, I’m interested in learning more about your [' + packageName + '] plan (₹' + price + ').');
           var whatsappNumber = '916289603700';
           var url = 'https://wa.me/' + whatsappNumber + '?text=' + message;
           window.open(url, '_blank');
