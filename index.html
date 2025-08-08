@@ -6,60 +6,98 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <style>
-/* ---------- Base ---------- */
-:root{
-  --neon-a:#00ffe7;
-  --neon-b:#009dff;
-  --bg-1:#0a0a0a;
-  --bg-2:#1d2327;
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
 }
-*{box-sizing:border-box}
+:root{
+  --neon-a:#00ffe7; /* Teal */
+  --neon-b:#009dff; /* Blue */
+  --neon-c:#ff00aa; /* Magenta */
+  --bg-1:#0a0a0a;
+  --bg-2:#191e2a;
+}
 body{
-  margin:0; padding:0; min-height:100vh; overflow-x:hidden;
-  background: linear-gradient(135deg, var(--bg-1) 0%, var(--bg-2) 100%);
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(0,255,231,0.08) 0%, transparent 30%),
+    radial-gradient(circle at 80% 70%, rgba(255,0,170,0.06) 0%, transparent 40%),
+    linear-gradient(135deg, var(--bg-1) 0%, var(--bg-2) 100%);
   font-family:'Segoe UI', Arial, sans-serif;
   position:relative;
+  color: #fff;
 }
 
-/* ---------- Background shape layer (new) ---------- */
+/* ---------- Background Shapes ---------- */
 .bg-scene{
-  position:fixed; inset:0;
-  pointer-events:none; /* don’t block clicks */
+  position:fixed;
+  inset:0;
+  pointer-events:none;
   z-index:0;
   overflow:hidden;
 }
 .shape{
-  position:absolute; width:48vmin; height:48vmin;
-  background: radial-gradient(circle at 30% 30%, var(--neon-a), transparent 60%),
-              radial-gradient(circle at 70% 70%, var(--neon-b), transparent 60%);
+  position:absolute;
+  border-radius:50%;
+  width:48vmin; height:48vmin;
+  background:
+    radial-gradient(circle at 30% 30%, var(--neon-a), transparent 60%),
+    radial-gradient(circle at 70% 70%, var(--neon-c), transparent 60%);
   filter: blur(30px) saturate(120%);
   opacity:.22;
-  border-radius:50%;
   will-change: transform;
-  animation: float 14s ease-in-out infinite;
+  animation:
+    float 14s ease-in-out infinite,
+    hueRotate 20s ease-in-out infinite;
   mix-blend-mode:screen;
 }
-.shape.sm{ width:28vmin; height:28vmin; opacity:.18; animation-duration:18s }
-.shape.lg{ width:64vmin; height:64vmin; opacity:.16; animation-duration:22s }
+.shape.alt{
+  background:
+    radial-gradient(circle at 30% 30%, var(--neon-a), transparent 60%),
+    radial-gradient(circle at 70% 70%, var(--neon-b), transparent 60%);
+}
+.shape.sm{
+  width:28vmin; height:28vmin; opacity:.18;
+  animation:
+    float 18s ease-in-out infinite,
+    hueRotate 25s ease-in-out infinite;
+}
+.shape.lg{
+  width:64vmin; height:64vmin; opacity:.16;
+  animation:
+    float 22s ease-in-out infinite,
+    hueRotate 30s ease-in-out infinite;
+}
 
-/* initial positions; tweak to taste */
-.shape.s1{ top:-10vmin; left:-8vmin }
-.shape.s2{ top:20vh; right:-12vmin }
-.shape.s3{ bottom:-14vmin; left:10vw }
+.shape.s1{ top:-5vmin; left:-5vmin }
+.shape.s2{ top:20vh; right:-5vmin }
+.shape.s3{ bottom:-5vmin; left:10vw }
 .shape.s4{ top:60vh; right:15vw }
 .shape.s5{ top:10vh; left:55vw }
 
-/* soft floating */
 @keyframes float{
   0%{ transform: translate3d(0,0,0) rotate(0deg) }
   50%{ transform: translate3d(2vmin,-3vmin,0) rotate(6deg) }
   100%{ transform: translate3d(0,0,0) rotate(0deg) }
 }
 
-/* Ambient lines (SVG strokes) */
+/* Color & opacity morph */
+@keyframes hueRotate {
+  0%   { filter: hue-rotate(0deg) blur(30px) saturate(120%); opacity: 0.22; }
+  50%  { filter: hue-rotate(60deg) blur(30px) saturate(120%); opacity: 0.28; }
+  100% { filter: hue-rotate(0deg) blur(30px) saturate(120%); opacity: 0.22; }
+}
+
+/* Ambient Lines */
 .ambient-lines{
-  position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.25;
-  filter: drop-shadow(0 0 10px #00ffe744);
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  opacity:.2;
+  filter: drop-shadow(0 0 8px rgba(255,0,170,0.3));
 }
 .ambient-lines svg{ width:100%; height:100% }
 .line{
@@ -76,87 +114,147 @@ body{
 
 /* ---------- Hero ---------- */
 .hero{
-  min-height:100vh; width:100vw; position:relative;
+  min-height:100vh; width:100vw;
   display:flex; flex-direction:column; justify-content:center; align-items:center;
-  z-index:1; /* below overlay, above bg */
-}
-.hero::before, .hero::after{
-  content:''; position:absolute; border-radius:50%; filter:blur(60px); z-index:0;
-}
-.hero::before{
-  width:600px; height:600px; left:-200px; top:-180px;
-  background: radial-gradient(circle at 30% 40%, var(--neon-a) 0%, transparent 70%);
-  opacity:.20;
-}
-.hero::after{
-  width:500px; height:500px; right:-150px; bottom:-150px;
-  background: radial-gradient(circle at 70% 80%, var(--neon-b) 0%, transparent 70%);
-  opacity:.16;
+  position:relative;
+  z-index:1;
 }
 .overlay{
   position:absolute; inset:0; background:rgba(10,10,10,.50);
-  box-shadow:0 0 30px #00ffe7aa; z-index:1; backdrop-filter: blur(8px);
+  box-shadow:0 0 30px rgba(0,255,231,0.4); z-index:1; backdrop-filter: blur(8px);
 }
-.hero-content{ position:relative; z-index:2; text-align:center; color:#fff }
+.hero-content{ position:relative; z-index:2; text-align:center }
+
+/* Synced hero title */
 .hero-title{
-  color:var(--neon-a); font-size:7vw; text-transform:uppercase; font-weight:800; letter-spacing:.1em;
-  text-shadow:0 0 15px #00ffe7aa, 0 0 30px #009dffaa; margin:0 0 1vw;
+  font-size:7vw;
+  text-transform:uppercase;
+  font-weight:800;
+  letter-spacing:.1em;
+  background: linear-gradient(
+    90deg,
+    var(--neon-a),
+    var(--neon-c),
+    var(--neon-b),
+    var(--neon-a)
+  );
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation:
+    glowShift 20s ease-in-out infinite,
+    textPulse 6s ease-in-out infinite;
 }
+@keyframes glowShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes textPulse {
+  0%,100% { filter: drop-shadow(0 0 12px rgba(0,255,231,0.6)); }
+  50%     { filter: drop-shadow(0 0 18px rgba(255,0,170,0.8)); }
+}
+
 .hero-subtitle{
-  color:#fff; font-size:2.5vw; margin:0 0 2vw; text-shadow:0 0 5px #00ffe7aa;
+  font-size:2.5vw;
+  color:#fff;
+  text-shadow:0 0 5px rgba(0,255,231,0.6);
+  margin: 0 0 2vw 0;
 }
 .hero-btn{
-  background:var(--neon-a); color:#0a0a0a; border:none; border-radius:30px;
-  padding:1vw 3vw; font-size:1.5vw; font-weight:700; cursor:pointer;
-  box-shadow:0 0 8px #00ffe7aa, 0 0 16px #009dffaa;
+  background:var(--neon-a);
+  color:#0a0a0a;
+  border:none;
+  border-radius:30px;
+  padding:1vw 3vw;
+  font-size:1.5vw;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:0 0 8px var(--neon-a), 0 0 16px var(--neon-c);
   transition:transform .2s ease, background .2s, color .2s;
 }
-.hero-btn:hover{ background:var(--neon-b); color:#fff; transform: translateY(-2px) }
+.hero-btn:hover{
+  background:var(--neon-c);
+  color:#fff;
+  transform: translateY(-2px);
+}
 
 /* ---------- Packages ---------- */
 .packages{
-  width:100vw; min-height:80vh;
-  background: linear-gradient(120deg, #111 70%, #193f4d 100%);
-  padding:4vw 0 6vw; display:flex; flex-direction:column; align-items:center;
-  position:relative; z-index:1;
+  width:100vw;
+  min-height:80vh;
+  background: linear-gradient(120deg, #111 70%, #1c2a33 100%);
+  padding:4vw 0 6vw;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  z-index:1;
 }
 .packages-title{
-  color:var(--neon-a); font-size:3vw; margin-bottom:2vw; text-shadow:0 0 8px #00ffe7aa;
-  text-transform:uppercase; letter-spacing:.05em;
+  color:var(--neon-a);
+  font-size:3vw;
+  margin-bottom:2vw;
+  text-shadow:0 0 8px rgba(0,255,231,0.6);
+  text-transform:uppercase;
+  letter-spacing:.05em;
 }
 .packages-list{ display:flex; gap:2vw; flex-wrap:wrap; justify-content:center }
-
-/* cards + reveal (new animations) */
 .package-card{
   background: rgba(24,24,24,.93);
-  border-radius:20px; box-shadow:0 0 8px #00ffe744, 0 0 16px #009dff22;
-  padding:2vw 3vw; min-width:220px; max-width:300px; color:#fff;
-  display:flex; flex-direction:column; align-items:center; margin-bottom:2vw; backdrop-filter: blur(2px);
-  transform: translateY(30px) scale(.98);
-  opacity:0;
-  transition: transform .6s cubic-bezier(.2,.8,.2,1), opacity .6s ease;
+  border-radius:20px;
+  box-shadow:0 0 8px rgba(0,255,231,0.3), 0 0 16px rgba(255,0,170,0.15);
+  padding:2vw 3vw;
+  min-width:220px;
+  max-width:300px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  margin-bottom:2vw;
+  backdrop-filter: blur(2px);
+  transition: box-shadow .3s ease, transform .3s ease;
 }
-.package-card.is-visible{
-  transform: translateY(0) scale(1); opacity:1;
+.package-card:hover{
+  box-shadow:0 0 12px var(--neon-a), 0 0 24px var(--neon-c);
+  transform: translateY(-3px);
 }
-
-.package-name{ color:var(--neon-a); font-size:2vw; margin-bottom:1vw; text-shadow:0 0 4px #00ffe7aa }
+.package-name{
+  color:var(--neon-a);
+  font-size:2vw;
+  margin-bottom:1vw;
+  text-shadow:0 0 4px rgba(0,255,231,0.6);
+}
 .package-features{ list-style:none; padding:0; margin:0 0 1vw; font-size:1.1vw }
 .package-features li{ margin-bottom:.5vw }
 .package-runtime{ font-size:1vw; color:var(--neon-a); margin-bottom:.5vw }
 .package-price{
-  font-size:1.5vw; font-weight:700; color:#000; background:var(--neon-a);
-  border-radius:10px; padding:.5vw 1vw; margin-bottom:.5vw; box-shadow:0 0 4px #00ffe7aa; border:none;
+  font-size:1.5vw;
+  font-weight:700;
+  color:#000;
+  background:var(--neon-a);
+  border-radius:10px;
+  padding:.5vw 1vw;
+  margin-bottom:.5vw;
+  box-shadow:0 0 4px rgba(0,255,231,0.5);
+  border:none;
 }
 .package-knowmore{
-  font-size:1.2vw; font-weight:700; color:#000; background:var(--neon-a);
-  border-radius:10px; padding:.6vw 1.2vw; margin-top:.4vw; box-shadow:0 0 4px #00ffe7aa; border:none; cursor:pointer;
+  font-size:1.2vw;
+  font-weight:700;
+  color:#000;
+  background:var(--neon-c);
+  border-radius:10px;
+  padding:.6vw 1.2vw;
+  margin-top:.4vw;
+  box-shadow:0 0 4px rgba(255,0,170,0.4);
+  border:none;
+  cursor:pointer;
   transition: background .2s, color .2s, transform .2s;
 }
-.package-knowmore:hover{ background:var(--neon-b); color:#fff; transform: translateY(-2px) }
-
-/* ---------- Parallax hooks (new) ---------- */
-.parallax{ will-change: transform; transition:transform .1s linear }
+.package-knowmore:hover{
+  background:var(--neon-a);
+  color:#000;
+  transform: translateY(-2px);
+}
 
 /* ---------- Responsive ---------- */
 @media (max-width: 600px){
@@ -172,27 +270,20 @@ body{
   .package-price{ font-size:4vw; padding:2vw 4vw }
   .package-knowmore{ font-size:4vw; padding:2vw 4vw }
 }
-
-/* ---------- Reduced motion ---------- */
-@media (prefers-reduced-motion: reduce){
-  .shape, .hero-btn, .package-card, .package-knowmore{ animation: none !important; transition:none !important }
-  .line{ animation:none !important }
-}
   </style>
 </head>
 <body>
 
-  <!-- Background scene (new) -->
+  <!-- Background scene -->
   <div class="bg-scene">
-    <div class="shape lg s1 parallax" data-depth="0.06"></div>
-    <div class="shape sm s2 parallax" data-depth="0.12"></div>
-    <div class="shape s3 parallax" data-depth="0.08"></div>
-    <div class="shape sm s4 parallax" data-depth="0.16"></div>
-    <div class="shape lg s5 parallax" data-depth="0.05"></div>
+    <div class="shape lg s1"></div>
+    <div class="shape sm s2 alt"></div>
+    <div class="shape s3"></div>
+    <div class="shape sm s4 alt"></div>
+    <div class="shape lg s5"></div>
 
     <div class="ambient-lines">
       <svg viewBox="0 0 100 100" preserveAspectRatio="none">
-        <!-- gentle arcs -->
         <path class="line" d="M-10,30 C20,10 80,10 110,30" />
         <path class="line" d="M-10,55 C20,35 80,35 110,55" />
         <path class="line" d="M-10,80 C20,60 80,60 110,80" />
@@ -202,7 +293,7 @@ body{
 
   <section class="hero">
     <div class="overlay"></div>
-    <div class="hero-content parallax" data-depth="0.03">
+    <div class="hero-content">
       <h1 class="hero-title">rickkeditz</h1>
       <div class="hero-subtitle">video editing service</div>
       <button class="hero-btn">Get Started</button>
@@ -210,33 +301,36 @@ body{
   </section>
 
   <section class="packages" id="packages">
-    <h2 class="packages-title parallax" data-depth="0.02">Service Packages</h2>
-
+    <h2 class="packages-title">Service Packages</h2>
     <div class="packages-list">
       <div class="package-card">
         <h3 class="package-name">Basic Plan</h3>
         <ul class="package-features">
-          <li>Raw Cut</li><li>Icon Animations</li><li>B-Roll</li><li>BGM</li><li>SFX</li>
+          <li>Raw Cut</li>
+          <li>Icon Animations</li>
+          <li>B-Roll</li>
+          <li>BGM</li>
+          <li>SFX</li>
         </ul>
         <div class="package-runtime">Run time: 2 min</div>
         <div class="package-price">&#8377;900</div>
         <button class="package-knowmore" data-package="Basic Plan" data-price="900">Know More</button>
       </div>
-
       <div class="package-card">
         <h3 class="package-name">Advance Plan (Reels)</h3>
         <ul class="package-features">
-          <li>Motion Graphics</li><li>All features to make your video stand out</li>
+          <li>Motion Graphics</li>
+          <li>All features to make your video stand out</li>
         </ul>
         <div class="package-runtime">Run time: 2 min</div>
         <div class="package-price">&#8377;1500</div>
         <button class="package-knowmore" data-package="Advance Plan (Reels)" data-price="1500">Know More</button>
       </div>
-
       <div class="package-card">
         <h3 class="package-name">Advance Plan (Long)</h3>
         <ul class="package-features">
-          <li>Motion Graphics</li><li>All features to make your video stand out</li>
+          <li>Motion Graphics</li>
+          <li>All features to make your video stand out</li>
         </ul>
         <div class="package-runtime">Run time: Long format</div>
         <div class="package-price">&#8377;800/min</div>
@@ -246,63 +340,19 @@ body{
   </section>
 
   <script>
-/* Smooth scroll */
 document.querySelector('.hero-btn')?.addEventListener('click', () => {
   document.getElementById('packages')?.scrollIntoView({ behavior: 'smooth' });
 });
-
-/* WhatsApp redirect */
 document.querySelectorAll('.package-knowmore').forEach(btn => {
   btn.addEventListener('click', () => {
     const packageName = btn.getAttribute('data-package');
     const price = btn.getAttribute('data-price');
     const message = encodeURIComponent(`Hi, I’m interested in learning more about your [${packageName}] plan (₹${price}).`);
-    const whatsappNumber = '916289603700'; // country code + number
+    const whatsappNumber = '916289603700';
     const url = `https://wa.me/${whatsappNumber}?text=${message}`;
     window.open(url, '_blank');
   });
 });
-
-/* Parallax on scroll (lightweight) */
-const parallaxEls = [...document.querySelectorAll('.parallax')];
-const shapes = [...document.querySelectorAll('.shape')];
-
-function onScroll(){
-  const y = window.scrollY || 0;
-  parallaxEls.forEach(el => {
-    const depth = parseFloat(el.dataset.depth || 0.05);
-    el.style.transform = `translate3d(0, ${y*depth}px, 0)`;
-  });
-  shapes.forEach(el => {
-    const depth = parseFloat(el.dataset.depth || 0.08);
-    el.style.transform = `translate3d(0, ${y*depth}px, 0)`;
-  });
-  raf = null;
-}
-let raf=null;
-window.addEventListener('scroll', ()=>{
-  if(!raf) raf = requestAnimationFrame(onScroll);
-});
-onScroll();
-
-/* Reveal package cards on enter */
-const cards = document.querySelectorAll('.package-card');
-const io = new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      e.target.classList.add('is-visible');
-      io.unobserve(e.target);
-    }
-  });
-},{ threshold: .15 });
-cards.forEach(c=>io.observe(c));
-
-/* Respect reduced motion */
-const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-if(reduceMotion.matches){
-  window.removeEventListener('scroll', onScroll);
-  parallaxEls.concat(shapes).forEach(el => el.style.transform = 'none');
-}
   </script>
 </body>
 </html>
