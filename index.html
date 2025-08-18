@@ -1,16 +1,575 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <title>rick's portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+:root{
+  --neon-a:#00ffe7; /* Teal */
+  --neon-b:#009dff; /* Blue */
+  --neon-c:#ff00aa; /* Magenta */
+  --bg-1:#0a0a0a;
+  --bg-2:#191e2a;
+}
+body{
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(0,255,231,0.08) 0%, transparent 30%),
+    radial-gradient(circle at 80% 70%, rgba(255,0,170,0.06) 0%, transparent 40%),
+    linear-gradient(135deg, var(--bg-1) 0%, var(--bg-2) 100%);
+  font-family:'Segoe UI', Arial, sans-serif;
+  position:relative;
+  color: #fff;
+}
+
+/* ---------- Background Shapes ---------- */
+.bg-scene{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+  overflow:hidden;
+}
+.shape{
+  position:absolute;
+  border-radius:50%;
+  width:48vmin; height:48vmin;
+  background:
+    radial-gradient(circle at 30% 30%, var(--neon-a), transparent 60%),
+    radial-gradient(circle at 70% 70%, var(--neon-c), transparent 60%);
+  filter: blur(20px) saturate(120%);
+  opacity:.22;
+  will-change: transform;
+  animation:
+    float 14s ease-in-out infinite,
+    hueRotate 20s ease-in-out infinite;
+  mix-blend-mode:screen;
+}
+.shape.alt{
+  background:
+    radial-gradient(circle at 30% 30%, var(--neon-a), transparent 60%),
+    radial-gradient(circle at 70% 70%, var(--neon-b), transparent 60%);
+}
+.shape.sm{
+  width:28vmin; height:28vmin; opacity:.18;
+  animation:
+    float 18s ease-in-out infinite,
+    hueRotate 25s ease-in-out infinite;
+}
+.shape.lg{
+  width:64vmin; height:64vmin; opacity:.16;
+  animation:
+    float 22s ease-in-out infinite,
+    hueRotate 30s ease-in-out infinite;
+}
+
+.shape.s1{ top:-5vmin; left:-5vmin }
+.shape.s2{ top:20vh; right:-5vmin }
+.shape.s3{ bottom:-5vmin; left:10vw }
+.shape.s4{ top:60vh; right:15vw }
+.shape.s5{ top:10vh; left:55vw }
+
+@keyframes float{
+  0%{ transform: translate3d(0,0,0) rotate(0deg) }
+  50%{ transform: translate3d(2vmin,-3vmin,0) rotate(6deg) }
+  100%{ transform: translate3d(0,0,0) rotate(0deg) }
+}
+
+/* Color & opacity morph */
+@keyframes hueRotate {
+  0%   { filter: hue-rotate(0deg) blur(20px) saturate(120%); opacity: 0.22; }
+  50%  { filter: hue-rotate(60deg) blur(20px) saturate(120%); opacity: 0.28; }
+  100% { filter: hue-rotate(0deg) blur(20px) saturate(120%); opacity: 0.22; }
+}
+
+/* Ambient Lines */
+.ambient-lines{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  opacity:.2;
+  filter: drop-shadow(0 0 8px rgba(255,0,170,0.3));
+}
+.ambient-lines svg{ width:100%; height:100% }
+.line{
+  stroke:rgba(0,255,231,.35);
+  stroke-width:1.5;
+  stroke-linecap:round;
+  fill:none;
+  stroke-dasharray:6 10;
+  animation: dash 10s linear infinite;
+}
+@keyframes dash{ to{ stroke-dashoffset:-200 } }
+
+/* ---------- Hero ---------- */
+.hero{
+  min-height:100vh; width:100vw;
+  display:flex; flex-direction:column; justify-content:center; align-items:center;
+  position:relative;
+  z-index:1;
+}
+
+/* background media layer inside hero */
+.hero-media{ position:absolute; inset:0; z-index:0; overflow:hidden; }
+.hero-video{ width:100%; height:100%; object-fit:cover; opacity:.6; filter: saturate(110%) contrast(105%) brightness(90%); transition: filter .3s ease; }
+.hero-media.dark-tint .hero-video{ filter: saturate(110%) contrast(105%) brightness(65%); }
+.hero-media.light-tint .hero-video{ filter: saturate(110%) contrast(105%) brightness(100%); }
+
+.overlay{
+  position:absolute; inset:0; background:rgba(10,10,10,.50);
+  box-shadow:0 0 30px rgba(0,255,231,0.4); z-index:1; backdrop-filter: blur(8px);
+}
+.hero-content{ position:relative; z-index:2; text-align:center }
+
+/* Synced hero title — original gradient animation + glow */
+.hero-title{
+  font-size:7vw;
+  text-transform:uppercase;
+  font-weight:800;
+  letter-spacing:.1em;
+  background: linear-gradient(90deg, var(--neon-a), var(--neon-c), var(--neon-b), var(--neon-a));
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: glowShift 20s ease-in-out infinite, textPulse 6s ease-in-out infinite;
+}
+@keyframes glowShift {
+  0%{ background-position: 0% 50% }
+  50%{ background-position: 100% 50% }
+  100%{ background-position: 0% 50% }
+}
+@keyframes textPulse {
+  0%,100% { filter: drop-shadow(0 0 12px rgba(0,255,231,0.6)); }
+  50%     { filter: drop-shadow(0 0 18px rgba(255,0,170,0.8)); }
+}
+
+.hero-subtitle{
+  font-size:2.5vw;
+  color:#fff;
+  text-shadow:0 0 5px rgba(0,255,231,0.6);
+  margin: 0 0 2vw 0;
+}
+.hero-btn{
+  background:var(--neon-a);
+  color:#0a0a0a;
+  border:none;
+  border-radius:30px;
+  padding:1vw 3vw;
+  font-size:1.5vw;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:0 0 8px var(--neon-a), 0 0 16px var(--neon-c);
+  transition:transform .2s ease, background .2s, color .2s;
+}
+.hero-btn:hover{ background:var(--neon-c); color:#fff; transform: translateY(-2px); }
+
+/* ---------- Packages ---------- */
+.packages{
+  width:100vw; min-height:80vh;
+  background: linear-gradient(120deg, #111 70%, #1c2a33 100%);
+  padding:4vw 0 6vw;
+  display:flex; flex-direction:column; align-items:center;
+  z-index:1;
+}
+.packages-title{ color:var(--neon-a); font-size:3vw; margin-bottom:2vw; text-shadow:0 0 8px rgba(0,255,231,0.6); text-transform:uppercase; letter-spacing:.05em; }
+.packages-list{ display:flex; gap:2vw; flex-wrap:wrap; justify-content:center }
+.package-card{
+  background: rgba(24,24,24,.93);
+  border-radius:20px;
+  box-shadow:0 0 8px rgba(0,255,231,0.3), 0 0 16px rgba(255,0,170,0.15);
+  padding:2vw 3vw; min-width:220px; max-width:300px;
+  display:flex; flex-direction:column; align-items:center;
+  margin-bottom:2vw; backdrop-filter: blur(2px);
+  transition: box-shadow .3s ease, transform .3s ease;
+}
+.package-card:hover{ box-shadow:0 0 12px var(--neon-a), 0 0 24px var(--neon-c); transform: translateY(-3px); }
+.package-name{ color:var(--neon-a); font-size:2vw; margin-bottom:1vw; text-shadow:0 0 4px rgba(0,255,231,0.6); }
+.package-features{ list-style:none; padding:0; margin:0 0 1vw; font-size:1.1vw }
+.package-features li{ margin-bottom:.5vw }
+.package-runtime{ font-size:1vw; color:var(--neon-a); margin-bottom:.5vw }
+.package-price{ font-size:1.5vw; font-weight:700; color:#000; background:var(--neon-a); border-radius:10px; padding:.5vw 1vw; margin-bottom:.5vw; box-shadow:0 0 4px rgba(0,255,231,0.5); border:none; }
+.package-knowmore{ font-size:1.2vw; font-weight:700; color:#000; background:var(--neon-c); border-radius:10px; padding:.6vw 1.2vw; margin-top:.4vw; box-shadow:0 0 4px rgba(255,0,170,0.4); border:none; cursor:pointer; transition: background .2s, color .2s, transform .2s; }
+.package-knowmore:hover{ background:var(--neon-a); color:#000; transform: translateY(-2px); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 600px){
+  .hero-title{ font-size:12vw }
+  .hero-subtitle{ font-size:5vw }
+  .hero-btn{ font-size:4vw; padding:3vw 8vw }
+  .packages-title{ font-size:7vw }
+  .packages-list{ flex-direction:column; gap:4vw }
+  .package-card{ font-size:4vw; padding:5vw 6vw; min-width:unset; max-width:unset }
+  .package-name{ font-size:5vw }
+  .package-features{ font-size:4vw }
+  .package-runtime{ font-size:3vw }
+  .package-price{ font-size:4vw; padding:2vw 4vw }
+  .package-knowmore{ font-size:4vw; padding:2vw 4vw }
+}
+
+/* ---------- Geo Field (individual floating shapes) ---------- */
+.geo-field{ position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
+
+/* common look */
+.geo{ position:absolute; width:22vmin; height:22vmin; opacity:.22; filter: drop-shadow(0 0 10px rgba(0,255,231,.25)); will-change: transform, opacity; transform-origin: 50% 50%; transition: opacity .2s ease, transform .2s ease; }
+.geo .stroke{ fill:none; stroke: rgba(0,255,231,.55); stroke-width:3; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray: 8 10; animation: geoDash 14s linear infinite; }
+@keyframes geoDash{ to{ stroke-dashoffset:-240; } }
+
+/* orbiting dots on rings */
+.orbit-dots{ fill:none; stroke: var(--neon-a); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 1 80; animation: orbit 6s linear infinite; filter: url(#neonGlow1); opacity:.9; }
+@keyframes orbit { to { stroke-dashoffset: -160; } }
+
+/* depth presets */
+.geo{ --depth: 1; --bob: 16px; --spin: 24deg; }
+.geo.ring{ --bob: 18px; --spin: 28deg; }
+.geo.tri { --bob: 14px; --spin: 20deg; }
+.geo.sq  { --bob: 12px; --spin: 16deg; }
+.geo.dia { --bob: 20px; --spin: 32deg; }
+
+.geo{ animation: geoBob 10s ease-in-out infinite, geoSpin 24s linear infinite, hueRotate 26s ease-in-out infinite; }
+@keyframes geoBob{ 0%,100%{ transform: translate3d(0, calc(var(--bob) * -0.5), 0) rotate(0); } 50%{ transform: translate3d(0, calc(var(--bob) * 0.5),  0) rotate(0); } }
+@keyframes geoSpin{ to{ transform: rotate(var(--spin)); } }
+
+/* positions + depths */
+.g1{ top:10vh;  left:8vw;   --depth:0.3; transform: translateZ(0); }
+.g2{ top:25vh;  right:10vw; --depth:0.6; }
+.g3{ bottom:12vh; left:12vw; --depth:0.9; }
+.g4{ top:58vh;  right:24vw; --depth:0.45; }
+.g5{ top:12vh;  left:58vw;  --depth:0.7; width:16vmin; height:16vmin; }
+.g6{ bottom:18vh; right:8vw; --depth:0.55; width:14vmin; height:14vmin; }
+
+/* color variation per type */
+.geo.tri .stroke{ stroke: rgba(255,0,170,.55); }
+.geo.sq  .stroke{ stroke: rgba(0,157,255,.55); }
+.geo.ring .stroke{ stroke: rgba(0,255,231,.55); }
+
+/* mouse-proximity pulse */
+.geo.hot { opacity:.42; transform: scale(1.06); }
+
+/* subtle global grain */
+.grain{ position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity:.06; mix-blend-mode: soft-light; background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="140" height="140"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" /></filter><rect width="100%" height="100%" filter="url(%23n)" opacity="0.6"/></svg>'); background-size: 300px 300px; }
+
+/* respect reduced motion */
+@media (prefers-reduced-motion: reduce){ .geo{ animation: none !important } .geo .stroke{ animation: none !important } }
+  </style>
 </head>
 <body>
-    <script>
-        const packageName = 'Sample Package';
-        const price = '100';
-        const message = encodeURIComponent(`Hi, I’m interested in learning more about your [${packageName}] plan ($${price}).`);
-        console.log(message);
-    </script>
+
+  <!-- Background scene -->
+  <div class="bg-scene">
+    <div class="shape lg s1"></div>
+    <div class="shape sm s2 alt"></div>
+    <div class="shape s3"></div>
+    <div class="shape sm s4 alt"></div>
+    <div class="shape lg s5"></div>
+
+    <div class="ambient-lines">
+      <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+        <path class="line" d="M-10,30 C20,10 80,10 110,30" />
+        <path class="line" d="M-10,55 C20,35 80,35 110,55" />
+        <path class="line" d="M-10,80 C20,60 80,60 110,80" />
+      </svg>
+    </div>
+
+    <!-- Individual geometric shapes (upgraded) -->
+    <div class="geo-field">
+      <!-- Thin neon ring -->
+      <svg class="geo ring g1" viewBox="0 0 120 120" aria-hidden="true">
+        <defs>
+          <linearGradient id="neonStroke1" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="var(--neon-a)"/>
+            <stop offset="50%" stop-color="var(--neon-c)"/>
+            <stop offset="100%" stop-color="var(--neon-b)"/>
+          </linearGradient>
+          <filter id="neonGlow1" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur stdDeviation="3" result="b1"/>
+            <feGaussianBlur stdDeviation="8" in="SourceGraphic" result="b2"/>
+            <feMerge>
+              <feMergeNode in="b1"/>
+              <feMergeNode in="b2"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+        <circle cx="60" cy="60" r="48" class="stroke" stroke="url(#neonStroke1)" filter="url(#neonGlow1)" />
+        <circle cx="60" cy="60" r="40" class="orbit-dots" filter="url(#neonGlow1)" />
+      </svg>
+
+      <!-- Triangle outline -->
+      <svg class="geo tri g2" viewBox="0 0 120 120" aria-hidden="true">
+        <defs>
+          <linearGradient id="neonStroke2" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="var(--neon-a)"/>
+            <stop offset="50%" stop-color="var(--neon-c)"/>
+            <stop offset="100%" stop-color="var(--neon-b)"/>
+          </linearGradient>
+          <filter id="neonGlow2" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur stdDeviation="3" result="b1"/>
+            <feGaussianBlur stdDeviation="8" in="SourceGraphic" result="b2"/>
+            <feMerge>
+              <feMergeNode in="b1"/>
+              <feMergeNode in="b2"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+        <polygon points="60,12 110,108 10,108" class="stroke" stroke="url(#neonStroke2)" filter="url(#neonGlow2)" />
+      </svg>
+
+      <!-- Square outline -->
+      <svg class="geo sq g3" viewBox="0 0 120 120" aria-hidden="true">
+        <defs>
+          <linearGradient id="neonStroke3" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="var(--neon-a)"/>
+            <stop offset="50%" stop-color="var(--neon-c)"/>
+            <stop offset="100%" stop-color="var(--neon-b)"/>
+          </linearGradient>
+          <filter id="neonGlow3" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur stdDeviation="3" result="b1"/>
+            <feGaussianBlur stdDeviation="8" in="SourceGraphic" result="b2"/>
+            <feMerge>
+              <feMergeNode in="b1"/>
+              <feMergeNode in="b2"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+        <rect x="18" y="18" width="84" height="84" class="stroke" stroke="url(#neonStroke3)" filter="url(#neonGlow3)" />
+      </svg>
+
+      <!-- Filled diamond (rotated square) -->
+      <svg class="geo dia g4" viewBox="0 0 120 120" aria-hidden="true">
+        <defs>
+          <linearGradient id="neonStroke4" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="var(--neon-a)"/>
+            <stop offset="50%" stop-color="var(--neon-c)"/>
+            <stop offset="100%" stop-color="var(--neon-b)"/>
+          </linearGradient>
+          <radialGradient id="neonFill4" cx="40%" cy="40%" r="60%">
+            <stop offset="0%" stop-color="rgba(0,255,231,0.18)"/>
+            <stop offset="70%" stop-color="rgba(255,0,170,0.14)"/>
+            <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
+          </radialGradient>
+          <filter id="neonGlow4" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur stdDeviation="3" result="b1"/>
+            <feGaussianBlur stdDeviation="8" in="SourceGraphic" result="b2"/>
+            <feMerge>
+              <feMergeNode in="b1"/>
+              <feMergeNode in="b2"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+        <polygon points="60,8 112,60 60,112 8,60" class="fill" fill="url(#neonFill4)" filter="url(#neonGlow4)" />
+      </svg>
+
+      <!-- Small ring -->
+      <svg class="geo ring g5" viewBox="0 0 120 120" aria-hidden="true">
+        <defs>
+          <linearGradient id="neonStroke5" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="var(--neon-a)"/>
+            <stop offset="50%" stop-color="var(--neon-c)"/>
+            <stop offset="100%" stop-color="var(--neon-b)"/>
+          </linearGradient>
+          <filter id="neonGlow5" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur stdDeviation="3" result="b1"/>
+            <feGaussianBlur stdDeviation="8" in="SourceGraphic" result="b2"/>
+            <feMerge>
+              <feMergeNode in="b1"/>
+              <feMergeNode in="b2"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+        <circle cx="60" cy="60" r="36" class="stroke" stroke="url(#neonStroke5)" filter="url(#neonGlow5)" />
+        <circle cx="60" cy="60" r="30" class="orbit-dots" filter="url(#neonGlow5)" style="animation-duration:8s; stroke-dasharray: 2 64;" />
+      </svg>
+
+      <!-- Tiny triangle -->
+      <svg class="geo tri g6" viewBox="0 0 120 120" aria-hidden="true">
+        <defs>
+          <linearGradient id="neonStroke6" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="var(--neon-a)"/>
+            <stop offset="50%" stop-color="var(--neon-c)"/>
+            <stop offset="100%" stop-color="var(--neon-b)"/>
+          </linearGradient>
+          <filter id="neonGlow6" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur stdDeviation="3" result="b1"/>
+            <feGaussianBlur stdDeviation="8" in="SourceGraphic" result="b2"/>
+            <feMerge>
+              <feMergeNode in="b1"/>
+              <feMergeNode in="b2"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+        <polygon points="60,22 98,98 22,98" class="stroke" stroke="url(#neonStroke6)" filter="url(#neonGlow6)" />
+      </svg>
+    </div>
+  </div>
+
+  <div class="grain"></div>
+
+  <section class="hero">
+    <!-- HERO MEDIA (placeholder) -->
+    <div class="hero-media dark-tint" id="heroMedia">
+      <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1280' height='720'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%2300ffe7'/><stop offset='50%' stop-color='%23ff00aa'/><stop offset='100%' stop-color='%23009dff'/></linearGradient></defs><rect width='100%' height='100%' fill='%230a0a0a'/><rect x='40' y='40' width='1200' height='640' rx='28' ry='28' fill='url(%23g)' opacity='0.18'/><text x='50%' y='52%' font-family='Segoe UI, Arial' font-size='56' fill='%23d7fdf8' text-anchor='middle'>Your Reel / Background Video</text><text x='50%' y='62%' font-family='Segoe UI, Arial' font-size='28' fill='%23a0aec0' text-anchor='middle'>Replace the <source> src in index.html</text></svg>'>
+        <!-- Replace src with your actual video file path -->
+        <source src="" type="video/mp4" />
+        <!-- Optional: add a WebM version for better compression -->
+        <!-- <source src="" type="video/webm" /> -->
+      </video>
+      <div class="toggler" id="tintToggle" style="position:absolute;bottom:10px;right:10px;z-index:3;background:rgba(0,0,0,0.4);color:#fff;padding:6px 12px;border-radius:6px;font-size:12px;cursor:pointer;user-select:none;">Toggle Tint</div>
+    </div>
+    <div class="overlay"></div>
+    <div class="hero-content">
+      <h1 class="hero-title">rickkeditz</h1>
+      <div class="hero-subtitle">video editing service</div>
+      <button class="hero-btn">Get Started</button>
+    </div>
+  </section>
+
+  <section class="packages" id="packages">
+    <h2 class="packages-title">Service Packages</h2>
+    <div class="packages-list">
+      <div class="package-card">
+        <h3 class="package-name">Basic Plan</h3>
+        <ul class="package-features">
+          <li>Raw Cut</li>
+          <li>Icon Animations</li>
+          <li>B-Roll</li>
+          <li>BGM</li>
+          <li>SFX</li>
+        </ul>
+        <div class="package-runtime">Run time: 2 min</div>
+        <div class="package-price">&#8377;900</div>
+        <button class="package-knowmore" data-package="Basic Plan" data-price="900">Know More</button>
+      </div>
+      <div class="package-card">
+        <h3 class="package-name">Advance Plan (Reels)</h3>
+        <ul class="package-features">
+          <li>Motion Graphics</li>
+          <li>All features to make your video stand out</li>
+        </ul>
+        <div class="package-runtime">Run time: 2 min</div>
+        <div class="package-price">&#8377;1500</div>
+        <button class="package-knowmore" data-package="Advance Plan (Reels)" data-price="1500">Know More</button>
+      </div>
+      <div class="package-card">
+        <h3 class="package-name">Advance Plan (Long)</h3>
+        <ul class="package-features">
+          <li>Motion Graphics</li>
+          <li>All features to make your video stand out</li>
+        </ul>
+        <div class="package-runtime">Run time: Long format</div>
+        <div class="package-price">&#8377;800/min</div>
+        <button class="package-knowmore" data-package="Advance Plan (Long)" data-price="800/min">Know More</button>
+      </div>
+    </div>
+  </section>
+
+  <script>
+// CTA scroll
+document.querySelector('.hero-btn')?.addEventListener('click', () => {
+  document.getElementById('packages')?.scrollIntoView({ behavior: 'smooth' });
+});
+
+// WhatsApp deep-links
+document.querySelectorAll('.package-knowmore').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const packageName = btn.getAttribute('data-package');
+    const price = btn.getAttribute('data-price');
+    const message = encodeURIComponent(`Hi, I’m interested in learning more about your [${packageName}] plan (₹${price}).`);
+    const whatsappNumber = '916289603700';
+    const url = `https://wa.me/${whatsappNumber}?text=${message}`;
+    window.open(url, '_blank');
+  });
+});
+
+/* Individual geo parallax (scroll + subtle mouse) + upgrades */
+(function(){
+  const geos = Array.from(document.querySelectorAll('.geo'));
+  if(!geos.length) return;
+
+  // set data-depth from CSS variable fallback
+  geos.forEach(el=>{
+    const d = parseFloat(getComputedStyle(el).getPropertyValue('--depth')) || 0.5;
+    el.dataset.depth = d.toString();
+  });
+
+  let rafId = null, mouseX=0.5, mouseY=0.5;
+
+  function applyParallax(){
+    const y = window.scrollY || 0;
+    geos.forEach((el)=>{
+      const depth = parseFloat(el.dataset.depth);
+      // scroll parallax
+      const py = y * depth * 0.15;
+      // subtle mouse parallax
+      const mx = (mouseX - 0.5) * (6 * depth);
+      const my = (mouseY - 0.5) * (6 * depth);
+      // depth-based rotate + scale for luxe feel
+      const rot = (depth - 0.5) * 3; // degrees
+      const sc  = 1 + (depth - 0.5) * 0.12;
+      el.style.transform = `translate3d(${mx}px, ${py + my}px, 0) rotate(${rot}deg) scale(${sc})`;
+    });
+    rafId = null;
+  }
+
+  function onScroll(){ if(!rafId) rafId = requestAnimationFrame(applyParallax); }
+  function onMouseMove(e){
+    const w = window.innerWidth, h = window.innerHeight;
+    mouseX = e.clientX / w; mouseY = e.clientY / h;
+    if(!rafId) rafId = requestAnimationFrame(applyParallax);
+  }
+
+  // mouse-proximity heat pulse
+  function heatmap(e){
+    const mx = e.clientX, my = e.clientY;
+    geos.forEach(el=>{
+      const rect = el.getBoundingClientRect();
+      const cx = rect.left + rect.width/2; const cy = rect.top + rect.height/2;
+      const d = Math.hypot(mx-cx, my-cy);
+      if(d < 180) el.classList.add('hot'); else el.classList.remove('hot');
+    });
+  }
+
+  // tiny uniqueness per page load
+  geos.forEach(el=>{ const jitter = (Math.random()*10 - 5).toFixed(2); el.style.rotate = `${jitter}deg`; });
+
+  window.addEventListener('scroll', onScroll, { passive:true });
+  window.addEventListener('mousemove', onMouseMove, { passive:true });
+  window.addEventListener('mousemove', heatmap, { passive:true });
+
+  applyParallax();
+})();
+
+// Tint toggle for hero video
+const tintToggle = document.getElementById('tintToggle');
+if(tintToggle){
+  tintToggle.addEventListener('click', ()=>{
+    const media = document.getElementById('heroMedia');
+    if(media.classList.contains('dark-tint')){ media.classList.remove('dark-tint'); media.classList.add('light-tint'); }
+    else if(media.classList.contains('light-tint')){ media.classList.remove('light-tint'); }
+    else { media.classList.add('dark-tint'); }
+  });
+}
+
+/* Encoding recommendations:
+ - Format: MP4 (H.264) or WebM (VP9/AV1) for browser compatibility.
+ - Resolution: 1080p for desktop, 720p if you want better mobile performance.
+ - Bitrate: ~4–8 Mbps for 1080p, ~2–4 Mbps for 720p.
+ - Keep audio track muted for autoplay; include playsinline for iOS.
+ - Add a static poster (already provided as data-URL) to improve perceived load.
+*/
+  </script>
 </body>
 </html>
