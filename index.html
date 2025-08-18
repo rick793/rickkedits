@@ -3,27 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Service Packages</title>
+    <title>Document</title>
 </head>
 <body>
-    <section id="service-packages">
-        <div class="package">
-            <div class="package-price">$20</div>
-            <button class="package-knowmore" data-package="Basic Plan" data-price="20">Know More</button>
-        </div>
-        <div class="package">
-            <div class="package-price">$25</div>
-            <button class="package-knowmore" data-package="Advance Plan (Reels)" data-price="25">Know More</button>
-        </div>
-        <div class="package">
-            <div class="package-price">$17/min</div>
-            <button class="package-knowmore" data-package="Advance Plan (Long)" data-price="17/min">Know More</button>
-        </div>
-    </section>
     <script>
-        const packageName = 'Your Package Name';
-        const price = 'Your Price';
+        const packageName = 'Sample Package';
+        const price = '100';
         const message = encodeURIComponent(`Hi, I’m interested in learning more about your [${packageName}] plan ($${price}).`);
+        console.log(message);
     </script>
 </body>
 </html>
